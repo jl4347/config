@@ -1,0 +1,145 @@
+set nocompatible " 取消兼容模式
+
+set history=100 " 保留历史记录
+set confirm " 在处理未保存或只读文件的时候，弹出确认
+set encoding=utf-8 " 编码格式
+set wrap " 自动换行
+set nu " 显示行号
+set ruler " 打开状态栏标尺
+set rulerformat=%15(%c%V\ %p%%%) " 标尺显示格式
+set showmatch " 高亮显示对应的括号
+set matchtime=5 " 对应括号的高亮时间
+set autoindent " 自动对齐
+set expandtab
+set tabstop=4 " 设定tab长度为4
+set shiftwidth=4 " 设定缩进的宽度为4
+set showcmd " 状态栏显示目前所执行的指令
+set noeb " 关闭输入错误的提示音
+set clipboard=unnamed
+
+" 总是显示状态栏
+set ls=2
+" 状态栏显示的内容
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"20%y/%m/%d\ -\ %H:%M\")}
+
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+ call vundle#rc()
+
+" let Vundle manage Vundle
+" required! 
+"这是vundle本身的设置
+ Bundle 'gmarik/vundle'  
+ 
+ " My Bundles here:
+ "这里是设置你自己自定义的插件的设置vundle设置，注意：下载的插件git为：https://github.com/godlygeek/tabular.git，则设置为Bundle 'godlygeek/tabular';https://github.com/gmarik/vundle.git设置则为 Bundle 'gmarik/vundle'  
+ " original repos on github
+ Bundle 'godlygeek/tabular'
+
+ " ...
+ Bundle 'Raimondi/delimitMate'
+ Bundle 'scrooloose/nerdcommenter'
+ "Bundle 'majutsushi/tagbar'
+ Bundle 'Lokaltog/vim-powerline'
+
+ 
+ " Indentation mark
+ Bundle 'Yggdroot/indentLine'
+
+ " Syntatic check
+ Bundle 'scrooloose/syntastic'
+
+ " Tagbar to show all the tags in the script
+ "Bundle 'majutsushi/tagbar'
+ "nmap <F8> :TagbarToggle<CR>
+
+ " Show directory in vim
+ Bundle 'scrooloose/nerdtree'
+
+ " Autocomplete
+ "Bundle 'Valloric/YouCompleteMe'
+
+ " Generate conf file for YouCompleteMe
+ Bundle 'rdnetto/YCM-Generator'
+
+ " Git plugin
+ Bundle 'tpope/vim-fugitive'
+
+ " Tagbar
+ Bundle 'majutsushi/tagbar'
+
+ " Solarized colorscheme
+ Bundle 'altercation/vim-colors-solarized'
+ 
+ "
+ " Brief help
+ " :BundleList          - list configured bundles
+ " :BundleInstall(!)    - install(update) bundles
+ " :BundleSearch(!) foo - search(or refresh cache first) for foo
+ " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+ "
+ " see :h vundle for more details or wiki for FAQ
+ " NOTE: comments after Bundle command are not allowed..
+
+ filetype plugin on
+ filetype plugin indent on     " required!
+
+" Syntatic check
+ set statusline+=%#warningmsg#
+ set statusline+=%{SyntasticStatuslineFlag()}
+ set statusline+=%*
+ 
+ let g:syntastic_always_populate_loc_list = 1
+ let g:syntastic_auto_loc_list = 1
+ let g:syntastic_check_on_open = 1
+ let g:syntastic_check_on_wq = 0
+
+
+ " Plugin configuration
+ " highlight the brackets
+ Bundle 'kien/rainbow_parentheses.vim'
+ let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
+let g:rbpt_loadcmd_toggle = 0
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+
+ " Indentation mark
+let g:indentLine_char = '┆'
+autocmd BufRead * :IndentLinesEnable
+au BufRead,BufEnter,BufNewFile * IndentLinesReset
+
+" Show directory in vim
+ " Automatic start nerdTree
+ "autocmd vimenter * NERDTree
+ "autocmd StdinReadPre * let s:std_in=1
+ "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+ map <C-n> :NERDTreeToggle<CR>
+ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+" Tagbar
+ let g:tagbar_ctags_bin='/usr/local/bin/ctags'  " Proper Ctags locations
+ let g:tagbar_width=26                          " Default is 40, seems too wide
+ noremap <silent> <Leader>y :TagbarToggle       " Display panel with y (or ,y)
+
